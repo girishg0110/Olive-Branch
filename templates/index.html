@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Olive Branch</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Olive Branch <img src="{{ url_for('static', filename='img/dove.png') }}" style="width: 30px;"></h1>
+    
+
+    {% if projects|length < 1 %} 
+    <h4 style="text-align: center">There are no projects currently hosted on Olive Branch. Create one below!</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Date Founded</th>
+            <th>Project Name</th>
+            <th>Description</th>
+            <th>Contact</th>
+            <th>Actions</th>
+        </tr>
+        {% for project in projects %}
+        <tr>
+            <td>{{ project.date_created.date() }}</td>
+            <td>{{ project.name }}</td>
+            <td>{{ project.description }}</td>
+            <td>{{ project.contact }}</td>
+            <td>
+                <a href="/delete/{{project.id}}">Delete</a>
+                <br>
+                <a href="/update/{{project.id}}">Update</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <div class="form">
+        <form action="/" method="POST">
+            <input type="text" name="name" id="content" placeholder="Project Name">
+            <br>
+            <input type="text" name="description" id="content" placeholder="Description">
+            <br>
+            <input type="text" name="contact" id="content" placeholder="Point of Contact">
+            <br>
+            <input type="submit" value="Add Project">
+        </form>
+    </div>
+</div>
+{% endblock %}
